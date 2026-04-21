@@ -14,6 +14,6 @@ def entrenar_modelo():
     )
 
     print("Entrenando el modelo...")
-    historial = modelo.fit(celcius, fahrenheit, epochs=500, verbose=...)
+    historial = modelo.fit(celcius, fahrenheit, epochs=500, verbose=False)
     print("Modelo entrenado")
     return modelo, historial
