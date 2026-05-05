@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 
 def CargarDatos():
     # Cargar datos del archivo CSV
-    ruta_csv = 'C:\\codes\\PF_PrograIII_FloresGarciaMiguel\\diabetes.csv'
+    ruta_csv = 'diabetes.csv'
     datos = pd.read_csv(ruta_csv)
 
     # Columnas donde el 0 es un dato faltante
