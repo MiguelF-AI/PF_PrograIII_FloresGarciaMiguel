@@ -1,35 +1,58 @@
-import modelo as modelo_module
-import os
-from tensorflow import keras
+import os 
+import tensorflow as tf
+import numpy as np
+from modelo import EntrenarModelo, CargarDatos, CrearModelo, GuardarModelo
+from graficas import GraficarResultados
 
-# CREAR EL ENTORNO VIRTUAL (si o si esta version)
-# python -3.11 -m venv .venv
+def main():
+    nombre_archivo = 'modelo_diabetes_v1.keras'
+    
+    print("- Iniciando Proyecto de Redes Neuronales")
+    
+    # Verificar si el modelo ya existe para cargarlo o entrenar uno nuevo
+    if os.path.exists(nombre_archivo):
+        print(f"\n[INFO] Se encontró el archivo '{nombre_archivo}'. Cargando modelo...")
+        modelo = tf.keras.models.load_model(nombre_archivo)
+        
+        # Cargamos datos solo para hacer una prueba de predicción
+        X, y = CargarDatos()
+        
+        print("\n-Realizando predicciones con el modelo cargado")
+        predicciones = modelo.predict(X[:5])
+        
+        for i, pred in enumerate(predicciones):
+            clase_predicha = np.argmax(pred)
+            probabilidad = np.max(pred) * 100
+            estado = "Diabetes" if clase_predicha == 1 else "Sano"
+            print(f"Paciente {i+1}: Predicción: {estado} ({probabilidad:.2f}%) | Real: {'Diabetes' if y[i]==1 else 'Sano'}")
+            
+    else:
+        print("\nNo existe modelo previo. Iniciando proceso de entrenamiento...")
+        
+        # Ejecutar el entrenamiento y obtener el historial para graficar
+        modelo, historial = EntrenarModelo()
+        
+        print("\nEntrenamiento finalizado.")
 
-# Habilitar el entorno virtual (en Windows)
-# source .venv/bin/activate
+        # Llamar a la función de gráficas
+        GraficarResultados(historial)
+        
+        # Mostrar métricas finales
+        print("\nResumen de Métricas Finales:")
 
-# Instalar las dependencias
+        final_acc = historial.history['accuracy'][-1]
+        final_loss = historial.history['loss'][-1]
+        val_acc = historial.history['val_accuracy'][-1]
+        val_loss = historial.history['val_loss'][-1]
 
-RUTA_MODELO= 'modelo_entrenado.keras'
+        print(f"Precisión en Entrenamiento (Accuracy): {final_acc*100:.2f}%")
+        print(f"Precisión en Validación (Val Accuracy): {val_acc*100:.2f}%")
+        print(f"Pérdida en Entrenamiento (Loss): {final_loss:.4f}")
+        print(f"Pérdida en Validación (Val Loss): {val_loss:.4f}")
 
-def guardar_modelo(modelo_entrenado, ruta=RUTA_MODELO):
-    modelo_entrenado.save(ruta)
-    print(f"✅ Modelo guardado en: {os.path.abspath(ruta)}")
-
-def cargar_modelo(ruta=RUTA_MODELO):
-    if os.path.exists(ruta):
-        print(f"📦 Cargando modelo desde: {os.path.abspath(ruta)}")
-        return keras.models.load_model(ruta)
-    return None
-
-def prediccion(modelo):
-    resultado = modelo.predict([100.0])
-    print(f'La temperatura {100.0}°C es igual a {resultado}°F')
+        # Guardar el modelo
+        modelo.save(nombre_archivo)
+        print(f"Modelo guardado exitosamente como '{nombre_archivo}'")
 
 if __name__ == "__main__":
-    modelo_entrenado = cargar_modelo()
-
-    if modelo_entrenado is None:
-        print("🚀 No hay modelo guardado. Entrenando...")
-        modelo_entrenado, historial = modelo.entrenar_modelo()
-        guardar_modelo(modelo_entrenado)
+    main()
