@@ -37,7 +37,7 @@ PF_PrograIII_FloresGarciaMiguel/
 ├── main.py/                    # Archivo principal
 ├── requirements.txt            # Dependencias del proyecto
 ├── README.md                   # Documentación del repositorio
-└── modelo_diabetes_v1.keras    # Modelo entrenado (O creado al ejecutar main.py)
+└── modelo_diabetes_v1.keras    # Modelo entrenado (Creado al ejecutar main.py)
 ```
 
 > La estructura puede variar dependiendo de la versión del proyecto.
@@ -113,8 +113,6 @@ Este proyecto fue desarrollado como parte de la materia de Programación III, ap
 ## Autor
 
 **Miguel Omar Flores García**
-
-* GitHub: [MiguelF-AI](https://github.com/topics/diabetes-prediction?utm_source=chatgpt.com)
 
 ## 📄 Licencia
 
