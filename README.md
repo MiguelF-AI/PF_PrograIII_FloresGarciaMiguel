@@ -34,7 +34,7 @@ PF_PrograIII_FloresGarciaMiguel/
 ├── diabetes.csv/               # Dataset utilizado
 ├── graficas.py                 # Código para graficar resultados
 ├── modelo.py/                  # Código para crear el modelo de redes neuronales
-├── main.py/                    # Archivo principal
+├── threads.py/                 # Archivo principal (predicción con hilos)
 ├── requirements.txt            # Dependencias del proyecto
 ├── README.md                   # Documentación del repositorio
 └── modelo_diabetes_v1.keras    # Modelo entrenado (O creado al ejecutar main.py)
@@ -97,7 +97,7 @@ pip install -r requirements.txt
 Ejecuta el proyecto con:
 
 ```bash
-python main.py
+python threads.py
 ```
 
 ## Objetivo académico
